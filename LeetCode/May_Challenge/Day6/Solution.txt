@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int max_index = 0;
+        int count = 1;
+        for(int i = 1; i < nums.size(); i++) {
+            if(nums[i] == nums[max_index])
+                count++;
+            else {
+                count--;
+            }
+            if(count == 0) {
+                max_index = i;
+                count++;
+            }
+        }
+        return nums[max_index];
+    }
+};

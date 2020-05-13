@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool checkStraightLine(vector<vector<int>>& coordinates) {
+        int x1,y1,x2,y2;
+        x1 = coordinates[0][0];
+        y1 = coordinates[0][1];
+        x2 = coordinates[1][0];
+        y2 = coordinates[1][1];
+        float slope = CalculateSlope(x1,x2,y1,y2);
+        // equation will be y - y1 = m(x - x1)
+        // solve further then it will be y - mx = y1 - mx1
+        float check = (y1 - slope*x1);
+        for(int i = 2; i < coordinates.size(); i++) {
+          float verify = float(coordinates[i][1]) - slope * float(coordinates[i][0]);
+            if(verify != check)
+                return false;
+        }
+        return true;
+    }
+    float CalculateSlope(int x1,int x2,int y1,int y2) {
+        float slope = float((y2 - y1))/float((x2 - x1));
+        return slope;
+    }
+};

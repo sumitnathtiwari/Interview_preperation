@@ -1,0 +1,52 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool isCousins(TreeNode* root, int x, int y) {
+        vector<int> vec1 = getLevelUtil(root,x,0,root);
+        vector<int> vec2 = getLevelUtil(root,y,0,root);
+        //cout<<vec1[0]<<" "<<vec1[1]<<endl;
+        //cout<<vec2[0]<<" "<<vec2[1]<<endl;
+        if(vec1[0] != vec2[0]) {
+            return false;
+        }
+        else if(vec1[1] != vec2[1]) {
+                return true;
+        }
+        
+    return false;
+    }
+
+    vector<int> getLevelUtil(TreeNode *node, int data, int level,TreeNode *parent) {
+            if (node == NULL) {
+                vector<int> vec1(2);
+                vec1[0] = -1;
+                vec1[1] = -1;
+                return vec1; 
+            }
+
+            if (node -> val == data) {
+                vector<int> vec2(2);
+                vec2[0] = level;
+                vec2[1] = parent->val;
+                return vec2; 
+            }
+            parent = node;
+            vector<int> downlevel = getLevelUtil(parent -> left, data, level + 1,parent); 
+            if (downlevel[0] != -1) {
+                return downlevel;
+            }
+
+            downlevel = getLevelUtil(parent->right, data, level + 1,parent); 
+                return downlevel;
+    }
+};

@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+        if(image.size() == 0 || sr >= image.size() || sc >= image[0].size()) {
+            return image;
+        } 
+        floodfill(image,sr,sc,newColor,image[sr][sc]);
+        return image;
+    }
+    void floodfill(vector<vector<int>>& image, int sr, int sc, int newColor, int oldValue) {
+                if(sr >= image.size() || sc >= image[0].size() || sr < 0 || sc < 0)
+                        return;
+                if(image[sr][sc] != oldValue)
+                    return;
+                if(image[sr][sc] == newColor)
+                    return;
+                image[sr][sc] = newColor;
+                cout<<sr<<" "<<sc<<" "<<image[sr][sc]<<endl;
+                floodfill(image,sr+1,sc,newColor,oldValue);
+                floodfill(image,sr-1,sc,newColor,oldValue);
+                floodfill(image,sr,sc+1,newColor,oldValue);
+                floodfill(image,sr,sc-1,newColor,oldValue);
+        return;
+    }
+};

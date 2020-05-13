@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int numJewelsInStones(string J, string S) {
+        int arr[256] = {0};                 // used this because characters ascii value won't be more than 256
+        if(J.length() == 0 || S.length() == 0)
+            return 0;       // handling edge cases
+        countFrequency(arr,J);      //function to store the frequency of occuring element
+        int answer = 0;
+        for(int i = 0; i < S.length(); i++) {
+            if(arr[S[i]] == 1)
+                answer++;                       //counting number of jewels
+        }
+        return answer;
+    }
+    void countFrequency(int *arr,string J)
+    {
+        for(int i = 0; i < J.length(); i++)
+            arr[J[i]]++;
+    }
+};
