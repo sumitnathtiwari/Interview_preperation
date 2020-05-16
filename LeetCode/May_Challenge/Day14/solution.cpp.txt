@@ -1,0 +1,85 @@
+class TrieNode {
+    public:
+    unordered_map<char,TrieNode*> children;
+    bool isEnd;
+    TrieNode() {
+        isEnd = false;
+    }
+};
+
+class Trie {
+public:
+    /** Initialize your data structure here. */
+    TrieNode* root;
+    /** Inserts a word into the trie. */
+    void insertWord(string word,TrieNode* root) {
+        if(word.length() == 0) {
+            root->isEnd = true;
+            return;
+        }
+        TrieNode* current = root;
+        for(int i = 0; i < word.length(); i++) {
+            if(current->children.find(word[i]) == current->children.end()) {
+                TrieNode * node = new TrieNode();
+                current->children.insert(make_pair(word[i],node));
+            }
+            current = current->children[word[i]];
+        }
+        current->isEnd = true;
+    }
+    
+    /** Returns if the word is in the trie. */
+    bool searchWord(string word,TrieNode* root) {
+        TrieNode * current = root;
+        for(int i = 0; i <  word.length(); i++) {
+            if(current->children.find(word[i]) == current->children.end()) {
+                return false;
+            }
+            current = current->children[word[i]];
+        }
+        return current->isEnd; 
+    }
+    
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    bool startsWithword(string word,TrieNode* root) {
+        TrieNode * current = root;
+        for(int i = 0; i <  word.length(); i++) {
+            if(current->children.find(word[i]) == current->children.end()) {
+                return false;
+            }
+            current = current->children[word[i]];
+        }
+        return true; 
+    }
+
+    Trie() {
+        root = new TrieNode();
+    }
+        /** This recursively calls our inbuilt function */
+    void insert(string word) {
+        insertWord(word,root);
+    }
+    
+    /** Returns if the word is in the trie. */
+    bool search(string word) {
+        if(searchWord(word,root))
+            return true;
+        return false;
+    }
+    
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    bool startsWith(string prefix) {
+        if(startsWithword(prefix,root))
+            return true;
+        return false;
+    }
+
+};
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie* obj = new Trie();
+ * obj->insert(word);
+ * bool param_2 = obj->search(word);
+ * bool param_3 = obj->startsWith(prefix);
+ */

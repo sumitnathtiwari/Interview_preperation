@@ -1,0 +1,59 @@
+class Solution {
+public:
+    int maxSubarraySumCircular(vector<int>& A) {
+//....................................................................................................
+        //SLIDING WINDOW APPROACH  WILL BE TLE
+        /*int maxSum = A[0];
+        unsigned int size = A.size();
+        for(int i = 0; i < size; i++) {
+            int currentSum = 0;
+            int j = i;
+            //using kadenes algorithm
+            //here i am treating array as circular and will be like..
+            //i.e if input = 5, -3, 5 then i am treating it as 5, -3, 5, 5, -3, 5
+            do {
+                currentSum += A[j];
+                if(maxSum < currentSum)
+                    maxSum = currentSum;
+                if(currentSum < 0)
+                    currentSum = 0;
+                j++;
+                j = j % size;
+            }while(j != i);
+                
+        }
+        return maxSum;
+    }*/
+//....................................................................................................
+//OPTIMISED APPROACH
+        int maxSum = kadens(A);
+        int totalSum = 0;
+        bool checkAllNegative = true;
+        for(int i = 0; i < A.size(); i++) {
+            if(A[i] > 0)
+                checkAllNegative = false;
+            totalSum += A[i];
+            A[i] = -A[i];
+        }
+        if(checkAllNegative)        //handling case for all negative
+            return maxSum;
+        int maxSumInverted = kadens(A);      //sum of non-contributing element//refer gfg for understanding
+        int maxSumContributing = totalSum + maxSumInverted; //why this
+        return maxSum>maxSumContributing?maxSum:maxSumContributing;
+    }
+
+    
+    
+    int kadens(vector<int> &A) {
+        int maxSum = A[0];
+        int currentSum = 0;
+        for(int i = 0; i < A.size(); i++) {
+            currentSum += A[i];
+            if(maxSum < currentSum)
+                maxSum = currentSum;
+            if(currentSum < 0)
+                currentSum = 0;
+        }
+    return maxSum;
+    }
+};
