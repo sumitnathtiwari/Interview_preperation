@@ -1,0 +1,26 @@
+class StockSpanner {
+public:
+    stack<pair<int,int>> nextMinStoredIndex;
+    int index = 0;
+    StockSpanner() {
+        
+    }
+    
+    int next(int price) {
+        if(nextMinStoredIndex.empty()) {
+            nextMinStoredIndex.push(make_pair(price,index++));
+            return 1;
+        }
+        while(!nextMinStoredIndex.empty() && nextMinStoredIndex.top().first <= price) {
+            nextMinStoredIndex.pop();
+        }
+        int answer = (nextMinStoredIndex.empty()) ? index + 1 : index - nextMinStoredIndex.top().second;
+        nextMinStoredIndex.push(make_pair(price,index++));
+        return answer;
+    }
+};
+/**
+ * Your StockSpanner object will be instantiated and called as such:
+ * StockSpanner* obj = new StockSpanner();
+ * int param_1 = obj->next(price);
+ */

@@ -1,0 +1,38 @@
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        //sliding window approach
+        vector<int> answer;
+         int arrString[256] = {0};
+         int arrPattern[256] = {0};
+        if(p.length() > s.length())
+            return answer;
+        for(int i = 0; i < p.length();i++) {
+            arrString[s[i]]++;
+            arrPattern[p[i]]++;
+        }
+        int left = 0;
+        for(int right = p.length(); right < s.length(); right++) {
+            
+            if(checkarray(arrPattern,arrString))
+                answer.push_back(left);
+                arrString[s[left]]--;
+                arrString[s[right]]++;
+                left++;
+        }
+        if(checkarray(arrPattern,arrString))
+            answer.push_back(left);
+        return answer;
+    }
+    
+    //check function if two array are equal or not
+    bool checkarray(int * arr1, int * arr2)
+    {
+        int MAX = 256;
+        for(int i = 0; i< MAX; i++) {
+            if(arr1[i] != arr2[i])
+                return false;
+        }
+        return true;
+    }
+};

@@ -1,0 +1,36 @@
+class Solution {
+public:
+    bool checkInclusion(string s1, string s2) {
+        //using sliding window
+        if(s2.length() < s1.length())
+            return false;
+        int pattern[26] = {0};      //frequency count correspond to s1
+        int freqWindow[26] = {0};   //frequecy count correspond to s2
+        for(int i = 0; i < s1.size(); i++){
+                pattern[s1[i]-'a']++;
+                freqWindow[s2[i] - 'a']++;
+        }
+        int j = 0;
+        for(int i = s1.size(); i <s2.size(); i++) {
+            
+            if(checkTwoArray(pattern,freqWindow)) {
+                return true;
+            }
+            freqWindow[s2[i]-'a']++;
+            freqWindow[s2[j] - 'a']--;
+            j++;
+        }
+            if(checkTwoArray(pattern,freqWindow)) {
+                return true;
+            }
+        return false;
+    }
+    bool checkTwoArray(int * pattern, int * freqWindow) {
+        
+        for(int i = 0; i < 26; i++) {
+            if(pattern[i] != freqWindow[i])
+                return false;
+        }
+        return true;
+    }
+};
