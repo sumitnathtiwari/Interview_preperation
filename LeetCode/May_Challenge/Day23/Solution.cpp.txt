@@ -1,0 +1,64 @@
+class Solution {
+public:
+    vector<vector<int>> intervalIntersection(vector<vector<int>>& A, vector<vector<int>>& B) {
+        //rough works
+        //brute force for each interval.a and interval.b we have to search the array if there is interval                 //possible if yes then print else go to next interval
+        //.
+        //.
+        //we can also do it with two pointer approach
+        //how??.....
+        //think for [[0,3],[4,9]]  and [[1,8],[9,10]]
+        //.........../................../
+        //.........ptr1................ptr2
+        //let ptr1 be pointer for 1st and ptr2 be pointer for second
+        //if(ptr2.a > ptr1.a  && ptr2.a < ptr1.b)
+        // if(ptr1.b < ptr2.b)
+        //add ptr2.a,ptr1.b
+        //ptr1++
+        //else add ptr2.a,ptr1.b
+        //ptr2++;
+        //similarly handle for ptr1.a > ptr2.b......
+        
+        int ptrA = 0;
+        int ptrB = 0;
+        vector<vector<int>> mergedInterval;
+        while(ptrA < A.size() && ptrB < B.size()) {
+            int firstA = A[ptrA][0];
+            int secondA = A[ptrA][1];
+            int firstB = B[ptrB][0];
+            int secondB = B[ptrB][1];
+            vector<int> currentMergedInterval;
+            if(firstA <= firstB && firstB <= secondA) {
+                if(secondB > secondA) {
+                    push(firstB,secondA,mergedInterval);
+                    ptrA++;
+                } else {
+                    push(firstB,secondB,mergedInterval);
+                    ptrB++;
+                }
+            } else if(firstA >= firstB && firstA <= secondB) {
+                if(secondB > secondA) {
+                    push(firstA,secondA,mergedInterval);
+                    ptrA++;
+                } else {
+                    push(firstA,secondB,mergedInterval);
+                    ptrB++;
+                }
+            } else {
+                if(firstB > secondA)
+                    ptrA++;
+                else
+                    ptrB++;
+            }
+        }
+        return mergedInterval;
+    }
+    
+    void push(int x,int y,vector<vector<int>> & mergedInterval) {
+        vector<int> currentMergedInterval;
+        currentMergedInterval.push_back(x);
+        currentMergedInterval.push_back(y);
+        mergedInterval.push_back(currentMergedInterval);
+        return ;
+    }
+};

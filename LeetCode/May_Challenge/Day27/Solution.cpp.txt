@@ -1,0 +1,42 @@
+class Solution {
+public:
+    bool possibleBipartition(int N, vector<vector<int>>& dislikes) {
+        vector<vector<int>> graph(N,vector<int>(N,0));
+        for(int i = 0; i < dislikes.size(); i++) {
+            graph[dislikes[i][0] - 1][dislikes[i][1] - 1] = 1;
+            graph[dislikes[i][1] - 1][dislikes[i][0]- 1] = 1;
+        }
+        //color matrix intitalise with -1
+        //color are 0 & 1
+        vector<int> color(N, -1);
+        int currentColor = 1;
+        for(int i = 0; i <N; i++) {
+            if(color[i] == -1)
+                if(!dfs(graph,color,i,currentColor))
+                    return false;
+        }
+       return true;
+    }
+    
+    bool dfs(vector<vector<int>> &graph, vector<int> &color,int startPos,int currentColor) {
+        if(color[startPos] != - 1 && color[startPos] != currentColor) {
+            return false;
+        } 
+        bool answer = true;
+        color[startPos] = currentColor;  //assign current color to initial position
+        for(int i = 0; i < graph[startPos].size(); i++) {
+            if(graph[startPos][i]) {
+                if(color[i] == -1) {
+                    answer &= dfs(graph,color,i,1 - currentColor);
+                }
+                if(color[i] != -1 && color[i] != 1 - currentColor) {
+                    return false;
+                }
+            }
+            if(!answer) {
+                return false;
+            }
+        }
+        return true;
+    }
+};

@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int maxUncrossedLines(vector<int>& A, vector<int>& B) {
+        //so this problem is of dp
+        //i.e lcs
+        //approach
+        //create a 2d matrix of size A+1 and B+1
+        //first row and col will be 0
+        //then traverse for the rest and if they are same then mark them
+        //and increase the count by 1
+        //int dp[A.size() + 1][B.size() + 1] = {0};
+        vector<vector<int>> dp(A.size()+1,vector<int>(B.size()+ 1,0));
+        for(int i = 0; i < A.size(); i++) {
+            for(int j = 0; j < B.size(); j++) {
+                if(A[i] == B[j]) {
+                    dp[i+1][j+1] = 1 + dp[i][j];
+                } else
+                  dp[i+1][j+1] = max(dp[i][j+1],dp[i+1][j]);  
+            }
+        }
+        return dp[A.size()][B.size()];
+    }
+};

@@ -1,0 +1,45 @@
+class Solution {
+public:
+    string frequencySort(string s) {
+        if(s.size() == 0)
+            return s;
+        vector<int> frequencyArray = countFrequency(s);
+        //testing
+        /*for(int i = 0 ; i < 52; i++) {
+            if(frequencyArray[i] != 0)
+            cout<<frequencyArray[i]<<" "<<i<<endl;
+        }*/
+        string answer = getString(frequencyArray);
+        return answer;
+    }
+    vector<int> countFrequency(string &s) {
+        vector<int> answer(256,0);
+        for(int i = 0; i < s.size(); i++) {
+                    answer[s[i]]++;
+        }
+        return answer;
+    }
+    
+    string getString(vector<int> &frequencyArray) {
+            string answer;
+            for(int i = 0; i < frequencyArray.size(); i++) {
+                int currentMax = 0;
+                int maxIndex = 0;
+                for(int j = 0; j < frequencyArray.size(); j++) {
+                    if(currentMax < frequencyArray[j]) {
+                        currentMax = frequencyArray[j];
+                        maxIndex = j;
+                    }
+                }
+                if(currentMax == 0) {
+                    break;
+                } else {
+                    while(currentMax--) {
+                    answer.push_back(maxIndex);
+                    }
+                }
+                frequencyArray[maxIndex] = 0;
+            }
+        return answer;
+    }
+};

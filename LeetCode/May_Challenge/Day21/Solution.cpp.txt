@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int countSquares(vector<vector<int>>& matrix) {
+        //using dynamic programming 
+        //why adding the count ??
+        //because at each step if the particular index will form a square of 1's then it must form square of + 1         //dimension 
+        //initialise 0 and 1st coloumn
+        int result = 0;
+        int dp[matrix.size()][matrix[0].size()];
+        for(int i = 0; i < matrix.size(); i++) {
+            for(int j = 0; j < matrix[i].size();j++) {
+                    if(i == 0 || j == 0) {
+                        dp[i][j] = matrix[i][j];
+                    }
+                else {
+                    dp[i][j] = matrix[i][j] ? min(dp[i-1][j-1],min(dp[i][j-1],dp[i-1][j])) + 1 : 0;
+                }
+                result+=dp[i][j];
+            }
+        }
+        return result;
+    }
+};

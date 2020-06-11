@@ -1,0 +1,15 @@
+class Solution {
+public:
+    vector<int> countBits(int num) {
+        vector<int> answer(num+1);
+        //see the pattern
+        //we can always get the value from it's previous one
+        for(int i = 1; i <= num; i++) {
+            if(i % 2 == 0)
+                answer[i] = answer[i/2];
+            else
+                answer[i] = answer[i/2] + 1;
+        }
+        return answer;
+    }
+};
